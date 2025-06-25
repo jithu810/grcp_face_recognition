@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "AIServiceProxy.Protos";
+
+service GenericService {
+  rpc PingRemoteMethod (RpcPingRequest) returns (RpcResponse);
+  rpc ExecuteRemoteMethod (RpcRequest) returns (RpcResponse);
+}
+
+message RpcPingRequest{
+      string RequestStr = 1;
+}
+
+message RpcRequest {
+  string RpcContext = 1;
+  string MethodName = 2;
+  string MethodParamType = 3;
+  string MethodParamData = 4;
+}
+
+message RpcResponse {
+  string StatusCode = 1;
+  string StatusDescription = 2;
+  string Remarks = 3;
+  string ResponseData = 4;
+}

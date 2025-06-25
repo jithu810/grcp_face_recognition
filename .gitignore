@@ -1,0 +1,101 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# pipenv
+Pipfile.lock
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pyright
+pyrightconfig.json
+
+# pytype
+.pytype/
+
+# coverage
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# pytest
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+.ipynb
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# gRPC generated files
+*_pb2.py
+*_pb2_grpc.py
+
+# Logs
+*.logs
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Docker
+*.pid
+*.sock
+docker-compose.override.yml
+
+# Test artifacts
+htmlcov/
+.tox/
+
+# Local dev data
+instance/
+*.db
+*.sqlite3
+chroma_db/
+
+#chat history
+history/
+
+#models
+Weights/
+
+#ouputs
+OUT/*
+content/
+logs/
+saved_files/
+faces_db/
+create_dataset/
+models/
+pred/
+tests/
