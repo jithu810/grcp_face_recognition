@@ -7,8 +7,10 @@ class ErrorMessages:
     MISSING_PARAMS="Missing params"
     RESOURCE_EXISTS="id already exixts in db"
     INTERNAL_SERVER_ERROR="internal server error"
+    INVALID_FOLDER_PATH = "Invalid folder path provided."
+    INVALID_IMAGE = "One or more images failed validation checks."
+    INVALID_IMAGE_DIMENSION="Image dimensions are too small."
     
-
 class SuccessMessages:
     """
     A collection of success message templates used throughout the application.

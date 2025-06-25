@@ -9,6 +9,7 @@ from utils.response_utils import response as _response
 from interceptors.request_id_interceptor import request_id_ctx
 from core.face_utils import FaceRecognitionManager
 import shutil
+from core.image_processor import ImageProcessor
 
 loggers = Config.init_logging()
 
@@ -58,6 +59,25 @@ class UpdateFaceProcessor:
         
         try:
             with Timer() as total_timer:
+
+                # Step 1: Validate that folder exists
+                if not os.path.exists(self.folder_path) or not os.path.isdir(self.folder_path):
+                    error_message = f"[FOLDER ERROR] Given path '{self.folder_path}' is not a valid directory."
+                    service_logger.error(error_message)
+                    return _response(HttpStatusCodes.BAD_REQUEST, ErrorMessages.INVALID_FOLDER_PATH, error_message)
+
+                 # Step 2: Validate each image inside folder
+                for filename in os.listdir(self.folder_path):
+                    file_path = os.path.join(self.folder_path, filename)
+                    if os.path.isfile(file_path):
+                        try:
+                            ImageProcessor.validate_image_path(file_path)
+                            ImageProcessor.validate_image_content(file_path)
+                        except ValueError as ve:
+                            error_message = f"[IMAGE VALIDATION FAILED] {str(ve)} in file: {filename}"
+                            service_logger.warning(error_message)
+                            return _response(HttpStatusCodes.BAD_REQUEST, ErrorMessages.INVALID_IMAGE, error_message)
+
                 dest_path = os.path.join("faces_db", self.id)
                 try:
                     if os.path.exists(dest_path):

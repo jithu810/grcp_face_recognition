@@ -10,7 +10,6 @@ import signal
 import os
 
 loggers = Config.init_logging()
-
 default_port = 50058
 PORT=Config.PORT
 
@@ -43,6 +42,7 @@ def serve():
     generic_service_pb2_grpc.add_GenericServiceServicer_to_server(
         GenericServiceHandler(registry),server
     )      
+
     try: 
         port = int(PORT)
     except ValueError:
@@ -73,4 +73,3 @@ def serve():
 
 if __name__ == '__main__':
     serve()
-

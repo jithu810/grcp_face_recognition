@@ -4,12 +4,15 @@ import numpy as np
 import faiss
 from insightface.app import FaceAnalysis
 from collections import Counter
+from utils.config import Config
+
+project_root = Config.PROJECT_ROOT
 
 class FaceRecognitionManager:
     def __init__(self, db_path=r"faces_db", index_path="saved_files/face_index.faiss", labels_path="saved_files/face_labels.npy", ctx_id=0):
-        self.db_path = db_path
-        self.index_path = index_path
-        self.labels_path = labels_path
+        self.db_path = os.path.join(project_root, db_path)
+        self.index_path = os.path.join(project_root, index_path)
+        self.labels_path = os.path.join(project_root, labels_path)
         self.ctx_id = ctx_id
         self.embedding_dim = 512
         self.app = self._init_insightface()
@@ -17,7 +20,8 @@ class FaceRecognitionManager:
 
     def _init_insightface(self):
         print("🔧 Initializing InsightFace...")
-        app = FaceAnalysis(root=r"D:\face-recognition\models\buffalo_l")
+        model_root = os.path.join(project_root, "models", "buffalo_l")
+        app = FaceAnalysis(root=model_root)
         app.prepare(ctx_id=self.ctx_id)
         return app
 
