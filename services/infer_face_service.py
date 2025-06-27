@@ -22,6 +22,7 @@ class InferFaceProcessor:
 
         self.query_id = self.params.get("QueryId")
         self.image_path = self.params.get("image_path")
+        self.target_id = self.params.get("target_id") 
 
         if not self.query_id:
             service_logger.warning("[INIT] Missing QueryId parameter.")
@@ -46,14 +47,20 @@ class InferFaceProcessor:
                 recognizer = FaceRecognitionManager()
                 validate_single_face_and_size(self.image_path, recognizer)
 
-                # Perform recognition
-                result, score = recognizer.recognize_face(self.image_path, k=3)
-                data = {
-                    "result": result,
-                    "confidence": round(score, 4) if score is not None else "N/A"
-                }
-
-                service_logger.info(f"[RECOGNIZED] Person: {result}, Confidence: {data['confidence']}")
+                if self.target_id:
+                    match, score = recognizer.verify_face(self.image_path, self.target_id)
+                    data = {
+                        "is_match": match,
+                        "confidence": round(score, 4) if score is not None else "N/A"
+                    }
+                    service_logger.info(f"[VERIFICATION] Target: {self.target_id}, Match: {match}, Confidence: {data['confidence']}")
+                else:
+                    result, score = recognizer.recognize_face(self.image_path, k=3)
+                    data = {
+                        "result": result,
+                        "confidence": round(score, 4) if score is not None else "N/A"
+                    }
+                    service_logger.info(f"[RECOGNIZED] Person: {result}, Confidence: {data['confidence']}")
 
             return {
                 "status_code": HttpStatusCodes.OK,

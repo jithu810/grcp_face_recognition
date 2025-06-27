@@ -8,7 +8,7 @@ from utils.config import Config
 loggers = Config.init_logging()
 service_logger = loggers['chatservice']
 
-IMG_DIM=200
+IMG_DIM=0
 
 class ImageProcessor:
     SUPPORTED_EXTENSIONS = ('.jpg', '.jpeg', '.png')

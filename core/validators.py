@@ -7,7 +7,7 @@ from utils.messages import ErrorMessages
 from utils.config import Config
 
 MAX_IMAGE_SIZE_MB = 5
-MIN_FACE_DIM = 50
+MIN_FACE_DIM = 0
 
 loggers = Config.init_logging()
 service_logger = loggers['chatservice']
