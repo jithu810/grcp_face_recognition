@@ -9,6 +9,7 @@ from utils.response_utils import response as _response
 from interceptors.request_id_interceptor import request_id_ctx
 from core.face_utils import FaceRecognitionManager
 import json
+import numpy as np
 
 loggers = Config.init_logging()
 
@@ -55,7 +56,10 @@ class InferFaceProcessor:
                 result,score = recognizer.recognize_face(self.image_path,k=3)
                 print("\n Predicted Person:",result)
                 print(" Confidence Score:", round(score, 4) if score is not None else "N/A")
-                data={"result":result,"conf":round(score, 4) if score is not None else "N/A"}
+                data = {
+                    "result": int(result) if isinstance(result, (np.integer, np.int_)) else result,
+                    "conf": float(round(float(score), 4)) if score is not None else "N/A"
+                }
 
             return {
                 "status_code": HttpStatusCodes.OK,
