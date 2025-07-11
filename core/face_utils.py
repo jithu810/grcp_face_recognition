@@ -22,10 +22,28 @@ class FaceRecognitionManager:
         self.index, self.labels = self._load_index_and_labels()
 
     def _init_insightface(self):
+<<<<<<< HEAD
         logger.info("Initializing InsightFace...")
         model_root = os.path.join(project_root, "models", "buffalo_l")
         app = FaceAnalysis(root=model_root)
         app.prepare(ctx_id=self.ctx_id)
+=======
+        print("🔧 Initializing InsightFace...")
+
+        model_path = r"models\buffalo_l\models\buffalo_l\models"
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"Model path does not exist: {model_path}")
+
+        if not hasattr(self, 'ctx_id'):
+            raise AttributeError("ctx_id is not defined in the class. Set self.ctx_id in __init__")
+
+        try:
+            app = FaceAnalysis(root=model_path)
+            app.prepare(ctx_id=self.ctx_id)
+        except Exception as e:
+            raise RuntimeError(f"Failed to initialize InsightFace: {e}")
+
+>>>>>>> main
         return app
 
     def _load_index_and_labels(self):

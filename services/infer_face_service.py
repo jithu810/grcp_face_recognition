@@ -8,7 +8,8 @@ from utils.timer import Timer
 from utils.response_utils import response as _response
 from interceptors.request_id_interceptor import request_id_ctx
 from core.face_utils import FaceRecognitionManager
-from core.validators import validate_image_file, validate_single_face_and_size
+import json
+import numpy as np
 
 loggers = Config.init_logging()
 PRODUCTION = Config.ENVIRONMENT
@@ -45,22 +46,13 @@ class InferFaceProcessor:
                 validate_image_file(self.image_path)
 
                 recognizer = FaceRecognitionManager()
-                validate_single_face_and_size(self.image_path, recognizer)
-
-                if self.target_id:
-                    match, score = recognizer.verify_face(self.image_path, self.target_id)
-                    data = {
-                        "is_match": match,
-                        "confidence": round(score, 4) if score is not None else "N/A"
-                    }
-                    service_logger.info(f"[VERIFICATION] Target: {self.target_id}, Match: {match}, Confidence: {data['confidence']}")
-                else:
-                    result, score = recognizer.recognize_face(self.image_path, k=3)
-                    data = {
-                        "result": result,
-                        "confidence": round(score, 4) if score is not None else "N/A"
-                    }
-                    service_logger.info(f"[RECOGNIZED] Person: {result}, Confidence: {data['confidence']}")
+                result,score = recognizer.recognize_face(self.image_path,k=3)
+                print("\n Predicted Person:",result)
+                print(" Confidence Score:", round(score, 4) if score is not None else "N/A")
+                data = {
+                    "result": int(result) if isinstance(result, (np.integer, np.int_)) else result,
+                    "conf": float(round(float(score), 4)) if score is not None else "N/A"
+                }
 
             return {
                 "status_code": HttpStatusCodes.OK,
