@@ -51,6 +51,8 @@ class DeleteFaceProcessor:
         
         try:
             with Timer() as total_timer:
+
+                
                 recognizer = FaceRecognitionManager()
                 recognizer.delete_person(self.id)
 
